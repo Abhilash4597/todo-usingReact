@@ -1,26 +1,58 @@
-import React, {useState} from 'react'
-import Todo from './Todo'
+import React, { useState } from 'react'
 
 function TodoList() {
 
-  const [todos, setTodos] = useState([]);
+  const [activity, setActivity] = useState("");
+  const [listData, setListData] = useState([]);
 
-  const addTodo = todo => {
-    if (!todo.text) {
-      return
-    }
-
-    const newTodos = [...todo, ...todos];
-
-    setTodos(newTodos);
-    // console.log(...todos);
+  const handleEvent = (e) => {
+    setActivity(e.target.value);
   }
+
+  const addActivity = () => {
+    // setListData([...listData, activity])
+    // console.log(listData)
+    setListData((listData) => {
+      const updatedList = [...listData, activity];
+      // console.log(updatedList)
+      setActivity('');
+      return updatedList;
+    })
+  }
+
+  const removeActivity = (i) => {
+    // const updatedListData = listData.filter(())
+  }
+
   return (
-    <div>
-      <h1>Write Your Plan</h1>
-      <Todo onSubmit={addTodo} />
-    </div>
-  )
+    <>
+      <div className="container">
+        <div className="header">TODO LIST</div>
+        <input
+          type="text"
+          placeholder="Add Activity"
+          value={activity}
+          onChange={handleEvent}
+        />
+        <button onClick={addActivity}>Add</button>
+        <p className="list-heading">Here is your List</p>
+        {listData !== [] && listData.map((data, i) => {
+          return (
+            <>
+              <p key={i} className="flex">
+                <div className="listData">{data}</div>
+                <div>
+                  <button onClick={() => removeActivity(i)} className="remove_btn">
+                    Remove
+                  </button>
+                </div>
+              </p>
+            </>
+          );
+        })}
+      </div>
+    </>
+  );
 }
 
 export default TodoList
